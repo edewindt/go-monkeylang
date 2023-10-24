@@ -85,6 +85,7 @@ func (l *Lexer) Read_Number() string {
 
 func (l *Lexer) Next_Token() token.Token {
 	var tok token.Token
+	l.Skip_WhiteSpace()
 	switch l.Char {
 	case '=':
 		if l.Peak_Char() == '=' {
@@ -135,6 +136,7 @@ func (l *Lexer) Next_Token() token.Token {
 	default:
 		if Is_Letter(l.Char) {
 			str := l.Read_Identifier()
+			l.ReadPosition -= 1
 			Type := token.Lookup_Identifier(str)
 			tok = token.Token{
 				Type:   Type,
@@ -142,6 +144,7 @@ func (l *Lexer) Next_Token() token.Token {
 			}
 		} else if Is_Digit(l.Char) {
 			str := l.Read_Number()
+			l.ReadPosition -= 1
 			Type := token.TokenType(token.INTIGER)
 
 			tok = token.Token{
