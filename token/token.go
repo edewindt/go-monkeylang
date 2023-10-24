@@ -96,6 +96,8 @@ func (t TokenType) to_string() string {
 		return "IF"
 	case 26:
 		return "ELSE"
+	case 27:
+		return "STRING"
 	default:
 		return "ILLEGAL"
 	}
@@ -129,4 +131,5 @@ const (
 	FALSE
 	IF
 	ELSE
+	STRING
 )

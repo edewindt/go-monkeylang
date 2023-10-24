@@ -60,7 +60,7 @@ func (l *Lexer) Peak_Char() rune {
 func (l *Lexer) Read_Identifier() string {
 	var ident []rune
 	for {
-		if Is_Letter(l.Char) {
+		if Is_Letter(l.Char) || Is_Digit(l.Char) {
 			ident = append(ident, l.Char)
 			l.Read_Char()
 		} else {
@@ -81,6 +81,27 @@ func (l *Lexer) Read_Number() string {
 		}
 	}
 	return string(num)
+}
+func (l *Lexer) Read_String() string {
+	var str []rune
+	if l.Char == '"' {
+		l.Read_Char()
+	} else {
+		return "Invalid String"
+	}
+
+	for {
+		if l.Char == '"' {
+			l.Read_Char()
+			break
+		} else if l.Char == 0 {
+			return "Unclosed String"
+		}
+		str = append(str, l.Char)
+		l.Read_Char()
+	}
+
+	return string(str)
 }
 
 func (l *Lexer) Next_Token() token.Token {
@@ -131,6 +152,14 @@ func (l *Lexer) Next_Token() token.Token {
 		tok = token.NewToken(token.GT, l.Char)
 	case '*':
 		tok = token.NewToken(token.ASTERISK, l.Char)
+	case '"':
+		str := l.Read_String()
+		l.ReadPosition -= 1
+		Type := token.TokenType(token.STRING)
+		tok = token.Token{
+			Type:   Type,
+			String: str,
+		}
 	case rune(0):
 		tok = token.NewToken(token.EOF, l.Char)
 	default:
