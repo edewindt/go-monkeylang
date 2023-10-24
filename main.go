@@ -1,13 +1,11 @@
 package main
 
 import (
-	"monkey-lang/token"
+	"fmt"
+	"monkey-lang/repl"
 )
 
 func main() {
-	tok := token.Token{
-		Type:   token.COMMA,
-		String: ",",
-	}
-	tok.Display()
+	fmt.Println("Type Anything to start")
+	repl.Start()
 }

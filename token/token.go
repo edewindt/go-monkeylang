@@ -7,8 +7,16 @@ type Token struct {
 	String string
 }
 
+type TokenType int
+
 func (t Token) Display() {
 	fmt.Println("Type:", t.Type.to_string(), " ", "String:", t.String)
+}
+func NewToken(Type TokenType, Char rune) Token {
+	return Token{
+		Type:   Type,
+		String: string(Char),
+	}
 }
 
 func Lookup_Identifier(i string) TokenType {
@@ -31,8 +39,6 @@ func Lookup_Identifier(i string) TokenType {
 		return IDENTIFIER
 	}
 }
-
-type TokenType int
 
 func (t TokenType) to_string() string {
 	switch t {
