@@ -15,7 +15,7 @@ func Start() {
 		input, _ := reader.ReadString('\n')
 		lexer := lexer.NewLexer(input)
 		for {
-			tok := lexer.Next_Token()
+			tok := lexer.NextToken()
 			if tok.Type == token.EOF {
 				break
 			}

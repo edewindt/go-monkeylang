@@ -116,7 +116,7 @@ func (l *Lexer) Read_String() string {
 	return string(str)
 }
 
-func (l *Lexer) Next_Token() token.Token {
+func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 	l.Skip_WhiteSpace()
 	switch l.Char {
