@@ -82,17 +82,21 @@ func (l *Lexer) Read_Identifier() string {
 	return string(ident)
 }
 
-func (l *Lexer) Read_Number() string {
+func (l *Lexer) Read_Number() (string, bool) {
 	var num []rune
+	isFloat := false
 	for {
-		if Is_Digit(l.Char) {
+		if Is_Digit(l.Char) || l.Char == '.' {
+			if l.Char == '.' {
+				isFloat = true
+			}
 			num = append(num, l.Char)
 			l.Read_Char()
 		} else {
 			break
 		}
 	}
-	return string(num)
+	return string(num), isFloat
 }
 func (l *Lexer) Read_String() string {
 	var str []rune
@@ -127,6 +131,13 @@ func (l *Lexer) NextToken() token.Token {
 				Type:   token.EQUALS,
 				String: "==",
 			}
+
+		} else if l.Peak_Char() == '>' {
+			l.Read_Char()
+			tok = token.Token{
+				Type:   token.ARROW,
+				String: "=>",
+			}
 		} else {
 			tok = token.NewToken(token.ASSIGN, l.Char, l.Pos)
 		}
@@ -144,6 +155,10 @@ func (l *Lexer) NextToken() token.Token {
 		tok = token.NewToken(token.LBRACE, l.Char, l.Pos)
 	case '}':
 		tok = token.NewToken(token.RBRACE, l.Char, l.Pos)
+	case '[':
+		tok = token.NewToken(token.LSQBRACKET, l.Char, l.Pos)
+	case ']':
+		tok = token.NewToken(token.RSQBRACKET, l.Char, l.Pos)
 	case '!':
 		if l.Peak_Char() == '=' {
 			l.Read_Char()
@@ -188,15 +203,25 @@ func (l *Lexer) NextToken() token.Token {
 				Pos:    l.Pos,
 			}
 		} else if Is_Digit(l.Char) {
-			str := l.Read_Number()
+			str, isFLoat := l.Read_Number()
 			l.ReadPosition -= 1
 			l.Pos.Column -= 1
-			Type := token.TokenType(token.INTIGER)
 
-			tok = token.Token{
-				Type:   Type,
-				String: str,
-				Pos:    l.Pos,
+			if isFLoat {
+				Type := token.TokenType(token.FLOAT)
+				tok = token.Token{
+					Type:   Type,
+					String: str,
+					Pos:    l.Pos,
+				}
+			} else {
+				Type := token.TokenType(token.INTIGER)
+				tok = token.Token{
+					Type:   Type,
+					String: str,
+					Pos:    l.Pos,
+				}
+
 			}
 		} else {
 			tok = token.NewToken(token.ILLEGAL, l.Char, l.Pos)

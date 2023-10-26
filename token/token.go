@@ -103,6 +103,14 @@ func (t TokenType) to_string() string {
 		return "ELSE"
 	case 27:
 		return "STRING"
+	case 28:
+		return "LSQBRACKET"
+	case 29:
+		return "RSQBRACKET"
+	case 30:
+		return "FLOAT"
+	case 31:
+		return "ARROW"
 	default:
 		return "ILLEGAL"
 	}
@@ -137,4 +145,8 @@ const (
 	IF
 	ELSE
 	STRING
+	LSQBRACKET
+	RSQBRACKET
+	FLOAT
+	ARROW
 )
