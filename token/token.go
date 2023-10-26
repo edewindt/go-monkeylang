@@ -1,21 +1,26 @@
 package token
 
-import "fmt"
+import (
+	"fmt"
+	"monkey-lang/helpers"
+)
 
 type Token struct {
 	Type   TokenType
 	String string
+	Pos    helpers.Pos
 }
 
 type TokenType int
 
 func (t Token) Display() {
-	fmt.Println("Type:", t.Type.to_string(), " ", "String:", t.String)
+	fmt.Println("Type:", t.Type.to_string(), " ", "String:", t.String, " ", "Line:", t.Pos.Line, "Column:", t.Pos.Column)
 }
-func NewToken(Type TokenType, Char rune) Token {
+func NewToken(Type TokenType, Char rune, pos helpers.Pos) Token {
 	return Token{
 		Type:   Type,
 		String: string(Char),
+		Pos:    pos,
 	}
 }
 
