@@ -23,7 +23,10 @@ func main() {
 	arg1 := os.Args[1]
 	arg2 := os.Args[2]
 	fmt.Println(arg1, " ", arg2)
-	contents, _ := os.ReadFile(arg1)
+	contents, err := os.ReadFile(arg1)
+	if err != nil {
+		fmt.Println(err)
+	}
 	input := string(contents)
 
 	l := lexer.NewLexer(input)
