@@ -45,7 +45,7 @@ func (l *Lexer) Read_Char() {
 
 func (l *Lexer) Skip_WhiteSpace() {
 	for {
-		if l.Char == ' ' || l.Char == '\n' || l.Char == '\r' {
+		if l.Char == ' ' || l.Char == '\n' || l.Char == '\r' || l.Char == '\t' {
 			l.Read_Char()
 		} else {
 			break

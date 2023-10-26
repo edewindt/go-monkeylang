@@ -14,7 +14,7 @@ type Token struct {
 type TokenType int
 
 func (t Token) Display() {
-	fmt.Println("Type:", t.Type.to_string(), " ", "String:", t.String, " ", "Line:", t.Pos.Line, "Column:", t.Pos.Column)
+	fmt.Println("Type:", t.Type.to_string(), " ", t.String, " ", "Line:", t.Pos.Line, "Column:", t.Pos.Column)
 }
 func NewToken(Type TokenType, Char rune, pos helpers.Pos) Token {
 	return Token{
